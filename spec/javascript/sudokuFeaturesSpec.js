@@ -1,13 +1,13 @@
 describe('feature testing', function() {
 
   beforeEach(function() {
-    jasmine.getFixtures.fixturesPath = '.';
-    loadFixtures()
+    jasmine.getFixtures().fixturesPath = './app';
+    loadFixtures('testFixture.html.erb');
   });
 
   it('redirects to game page', function() {
     $('input#start_game_button').click();
-    expect('body').toContainText('Have fun')
+    expect('h1').toContainText('Have fun');
   });
 
 });
