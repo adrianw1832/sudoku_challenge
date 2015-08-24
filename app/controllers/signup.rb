@@ -6,12 +6,17 @@ module Sudoku
       end
 
       post '/users' do
-        user = User.create(username: params[:username],
-                           email: params[:email],
-                           password: params[:password],
-                           password_confirmation: params[:password_confirmation])
-        session[:user_id] = user.id
-        redirect('/')
+        user = User.create(
+          username: params[:username], email: params[:email],
+          password: params[:password],
+          password_confirmation: params[:password_confirmation])
+        if user.save
+          session[:user_id] = user.id
+          redirect('/')
+        else
+          flash.now[:errors] = user.errors.full_messages
+          erb :'users/new'
+        end
       end
     end
   end
