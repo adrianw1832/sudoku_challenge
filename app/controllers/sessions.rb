@@ -2,6 +2,10 @@ module Sudoku
   module Routes
     class Sessions < Base
       get '/sessions/new' do
+        if current_user
+          flash[:notice] = "#{@current_user.username} is logged in already!"
+          redirect('/')
+        end
         erb :'sessions/new'
       end
 
@@ -10,6 +14,9 @@ module Sudoku
         if user
           session[:user_id] = user.id
           redirect('/')
+        else
+          flash.now[:errors] = ['The email or password is incorrect']
+          erb :'sessions/new'
         end
       end
 
