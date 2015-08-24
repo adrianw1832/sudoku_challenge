@@ -9,8 +9,29 @@
     <span>
         <p>Welcome, <%= @current_user.username %>!</p>
     </span>
+
+    <form action="/sessions" method="post">
+      <input type="hidden" name="_method" value="delete" />
+      <input type="submit" value="Log out" />
+    </form>
+<% end %>
+
+<% if flash[:notice] %>
+  <div class='flash notice'>
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+
+<% if flash[:errors] && !flash[:errors].empty? %>
+  <ul>
+    <% flash[:errors].each do |error| %>
+      <li class='flash error'><%= error %></li>
+    <% end %>
+  </ul>
 <% end %>
 <%= yield %>
 </body>
-
 </html>
+
+
+

@@ -2,6 +2,10 @@ module Sudoku
   module Routes
     class Signup < Base
       get '/users/new' do
+        if current_user
+          flash[:notice] = "#{@current_user.username} is logged in already!"
+          redirect('/')
+        end
         erb :'users/new'
       end
 

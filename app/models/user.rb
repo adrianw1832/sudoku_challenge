@@ -9,9 +9,9 @@ module Sudoku
       include DataMapper::Resource
 
       property :id, Serial
-      property :email, String, required: true
+      property :email, String, required: true, unique: true
       property :password_digest, Text
-      property :username, String, required: true
+      property :username, String, required: true, unique: true
       has n, :records
 
       validates_confirmation_of :password
