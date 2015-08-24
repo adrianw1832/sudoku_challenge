@@ -9,6 +9,7 @@ module Sudoku
       set :session_secret, 'secret'
       register Sinatra::Flash
       use Rack::MethodOverride
+      Tilt.register Tilt::ERBTemplate, 'html.erb'
 
       configure do
         register Sinatra::Partial
