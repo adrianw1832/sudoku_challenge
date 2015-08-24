@@ -19,8 +19,14 @@ feature '#User sign in' do
   end
 end
 
-# feature 'User can log out' do
-#   let(:user) { user = build(:user) }
-
-#   scenario 'while logged in' do
-#     user = create(:user)
+feature 'User can log out' do
+  scenario 'while logged in' do
+    user = create(:user)
+    visit('/')
+    expect(page).not_to have_button("Log out")
+    sign_in_as(user)
+    click_button('Log out')
+    expect(page).to have_content("Goodbye, #{user.username}!")
+    expect(page).not_to have_content("Welcome, #{user.username}!")
+  end
+end

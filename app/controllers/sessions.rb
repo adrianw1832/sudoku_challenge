@@ -12,6 +12,13 @@ module Sudoku
           redirect('/')
         end
       end
+
+      delete '/sessions' do
+        user = User.get(session[:user_id])
+        flash[:notice] = "Goodbye, #{user.username}!"
+        session.clear
+        redirect('/')
+      end
     end
   end
 end
