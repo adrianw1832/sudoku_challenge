@@ -2,7 +2,7 @@ module Sudoku
   module Routes
     class Homepage < Base
       get '/' do
-        erb :homepage
+        erb :index #Remember to change this shit ---------------------------------------------
       end
 
       get '/game' do

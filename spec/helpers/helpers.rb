@@ -7,4 +7,11 @@ module Helpers
     fill_in('username', with: user.username)
     click_button('Register')
   end
+
+  def sign_in_as(user)
+    visit('/sessions/new')
+    fill_in('username', with: user.username)
+    fill_in('password', with: user.password)
+    click_button('Log in')
+  end
 end
