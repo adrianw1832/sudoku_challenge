@@ -14,5 +14,6 @@ module Sudoku
   class MyApp < Sinatra::Base
     use Routes::Homepage
     use Routes::Signup
+    use Routes::Sessions
   end
 end
