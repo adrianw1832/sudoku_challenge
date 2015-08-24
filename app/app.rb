@@ -12,5 +12,7 @@ include Sudoku::Models
 
 module Sudoku
   class MyApp < Sinatra::Base
+    use Routes::Homepage
+    use Routes::Signup
   end
 end

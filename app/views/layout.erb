@@ -1,0 +1,6 @@
+<% if current_user %>
+  <span>
+    <p>Welcome, <%= @current_user.username %>!</p>
+  </span>
+<% end %>
+<%= yield %>
