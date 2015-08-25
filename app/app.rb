@@ -15,5 +15,6 @@ module Sudoku
     use Routes::Homepage
     use Routes::Signup
     use Routes::Sessions
+    use Routes::Game
   end
 end
