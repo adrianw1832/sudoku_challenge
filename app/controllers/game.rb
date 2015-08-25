@@ -6,8 +6,9 @@ module Sudoku
       end
 
       get '/results' do
-        p current_user.records.last
-        @results = time_to_minutes(current_user.records.last.time)
+        user = User.get(session[:user_id])
+        p user.records.last
+        @results = time_to_minutes(user.records.last.time)
         erb :results
       end
 
@@ -15,7 +16,6 @@ module Sudoku
         p params[:seconds]
         record = Record.create(time: params[:seconds], user: current_user)
         record.save
-        redirect '/results'
       end
     end
   end

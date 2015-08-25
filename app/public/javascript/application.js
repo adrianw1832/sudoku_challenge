@@ -1,31 +1,26 @@
 $(document).ready(function() {
   var sudoku = new Sudoku();
+  var startTime = new Date();
 
   $('input#start_game_button').click(function() {
     window.location.assign('http://127.0.0.1:9292/game');
-    Sudoku.prototype.startTime = new Date();
   });
 
   $('input#finish_game').click(function() {
-     if (sudoku.isGameFinished()) {
-      Sudoku.prototype.endTime = new Date();
-      var time = resultTime();
+    if (sudoku.isGameFinished()) {
+      var endTime = new Date();
+      var time = (endTime - startTime) / 1000;
       sendResult(time);
+      setTimeout(function () {
       window.location.assign('http://127.0.0.1:9292/results');
+    }, 1000 );
     }
   });
 
   var sendResult = function(time) {
-    $.post('http://127.0.0.1:9292/results', { seconds: 60 });
-    // $.ajax({
-    //   method: 'POST',
-    //   url: 'http://127.0.0.1:9292/results',
-    //   data: { seconds: time }
-    // });
-  };
-
-  var resultTime = function(time) {
-    return (sudoku.startTime - sudoku.endTime)/1000;
+    $.post('http://127.0.0.1:9292/results', {
+      seconds: time
+    });
   };
 
   var buildGUI = function() {

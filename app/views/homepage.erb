@@ -6,10 +6,9 @@
     <input type="submit" id="start_game_button" value="Start Game" />
     <ul id="time">
         <% @records.each do |each_record| %>
-        <% user = User.get(each_record.user_id) %>
             <li>
-                User: <%= user.username %>
-                Time: <%= each_record.time %>
+                User: <%= each_record.user.username %>
+                Time: <%= time_to_minutes(each_record.time) %>
             </li>
             <% end %>
     </ul>
