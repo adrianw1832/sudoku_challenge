@@ -3,13 +3,29 @@ $(document).ready(function() {
 
   $('input#start_game_button').click(function() {
     window.location.assign('http://127.0.0.1:9292/game');
+    Sudoku.prototype.startTime = new Date();
   });
 
   $('input#finish_game').click(function() {
-    if (sudoku.isGameFinished()) {
+     if (sudoku.isGameFinished()) {
       window.location.assign('http://127.0.0.1:9292/results');
+      Sudoku.prototype.endTime = new Date();
+      sendResult(resultTime());
     }
   });
+
+  var sendResult = function(time) {
+    $.ajax( {
+      method: 'POST',
+      url: 'http://127.0.0.1:9292/results',
+      data: { minutes: time.minutes, seconds: time.seconds}
+    })
+  };
+
+  var resultTime = function(time) {
+    var minutes = Math.round((sudoku.endTime - sudoku.startTime)/1000 % 60);
+    var seconds = (sudoku.endTime - sudoku.startTime)/1000/60);
+  };
 
   var buildGUI = function() {
     var row;
@@ -34,7 +50,6 @@ $(document).ready(function() {
     var xCoordinate = $(cell.currentTarget).data().row;
     var yCoordinate = $(cell.currentTarget).data().col;
     sudoku.insert(xCoordinate, yCoordinate, value);
-    console.log(value);
   };
 
   buildGUI();
