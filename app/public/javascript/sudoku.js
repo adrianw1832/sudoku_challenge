@@ -1,6 +1,6 @@
 var Sudoku = function Sudoku() {
   this.validationArrays = {row: [], col: []};
-  this.defaultGridSize = 9;
+  this.defaultGridSize = 3;
   this.buildValidationArrays();
   this.$cellMatrix = {};
 };
@@ -9,7 +9,7 @@ Sudoku.prototype.buildValidationArrays = function() {
   for (i = 0; i < this.defaultGridSize; i++) {
     this.validationArrays.row.push([]);
     for (j = 0; j < this.defaultGridSize; j++) {
-      this.validationArrays.row[i].push(' ');
+      this.validationArrays.row[i].push('');
     }
   }
   this.validationArrays.col = this.validationArrays.row;
@@ -21,8 +21,9 @@ Sudoku.prototype.insert = function(xCoordinate, yCoordinate, value) {
 };
 
 var isArrayUnique = function(element, index, array) {
+  var filteredArray = element.filter(function(n){ return /[1-9]/.test(n); });
   var sudoku = new Sudoku();
-  return _.uniq(element).length === sudoku.defaultGridSize;
+  return _.uniq(filteredArray).length === sudoku.defaultGridSize;
 };
 
 Sudoku.prototype.areRowsUnique = function() {

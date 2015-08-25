@@ -6,7 +6,9 @@ $(document).ready(function() {
   });
 
   $('input#finish_game').click(function() {
-    window.location.assign('http://127.0.0.1:9292/results');
+    if (sudoku.isGameFinished()) {
+      window.location.assign('http://127.0.0.1:9292/results');
+    }
   });
 
   var buildGUI = function() {
@@ -28,11 +30,12 @@ $(document).ready(function() {
   };
 
   var findDetails = function(cell) {
-    var val = $(cell.currentTarget).val();
-    var coords = $(cell.currentTarget).data();
-    console.log(val);
-    console.log(coords);
+    var value = $(cell.currentTarget).val();
+    var xCoordinate = $(cell.currentTarget).data().row;
+    var yCoordinate = $(cell.currentTarget).data().col;
+    sudoku.insert(xCoordinate, yCoordinate, value);
+    console.log(value);
   };
 
-  sudoku.buildGUI();
+  buildGUI();
 });
