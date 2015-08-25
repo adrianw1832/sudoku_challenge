@@ -5,10 +5,11 @@
 <body>
     <input type="submit" id="start_game_button" value="Start Game" />
     <ul id="time">
-        <%= @records.each do |record| %>
+        <% @records.each do |each_record| %>
+        <% user = User.get(each_record.user_id) %>
             <li>
-                User: <%= record.username %>
-                Time: <%= record.time %>
+                User: <%= user.username %>
+                Time: <%= each_record.time %>
             </li>
             <% end %>
     </ul>

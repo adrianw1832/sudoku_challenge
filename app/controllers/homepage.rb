@@ -2,7 +2,7 @@ module Sudoku
   module Routes
     class Homepage < Base
       get '/' do
-        @results = Record.all
+        @records = Record.all.sort
         erb :homepage
       end
     end

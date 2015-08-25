@@ -12,7 +12,7 @@ module Sudoku
       property :email, String, required: true, unique: true
       property :password_digest, Text
       property :username, String, required: true, unique: true
-      has n, :records
+      has n, :records, through: Resource
 
       validates_confirmation_of :password
 

@@ -8,22 +8,24 @@ $(document).ready(function() {
 
   $('input#finish_game').click(function() {
      if (sudoku.isGameFinished()) {
-      window.location.assign('http://127.0.0.1:9292/results');
       Sudoku.prototype.endTime = new Date();
-      sendResult(resultTime());
+      var time = resultTime();
+      sendResult(time);
+      window.location.assign('http://127.0.0.1:9292/results');
     }
   });
 
   var sendResult = function(time) {
-    $.ajax({
-      method: 'POST',
-      url: 'http://127.0.0.1:9292/results',
-      data: { seconds: time }
-    });
+    $.post('http://127.0.0.1:9292/results', { seconds: 60 });
+    // $.ajax({
+    //   method: 'POST',
+    //   url: 'http://127.0.0.1:9292/results',
+    //   data: { seconds: time }
+    // });
   };
 
   var resultTime = function(time) {
-    return (startTime - endTime)/1000;
+    return (sudoku.startTime - sudoku.endTime)/1000;
   };
 
   var buildGUI = function() {
