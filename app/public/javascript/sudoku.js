@@ -6,13 +6,19 @@ var Sudoku = function Sudoku() {
 };
 
 Sudoku.prototype.buildValidationArrays = function() {
-  for (i = 0; i < this.defaultGridSize; i++) {
+  for (var i = 0; i < this.defaultGridSize; i++) {
     this.validationArrays.row.push([]);
-    for (j = 0; j < this.defaultGridSize; j++) {
+    for (var j = 0; j < this.defaultGridSize; j++) {
       this.validationArrays.row[i].push('');
     }
   }
-  this.validationArrays.col = this.validationArrays.row;
+
+  for (var i = 0; i < this.defaultGridSize; i++) {
+    this.validationArrays.col.push([]);
+    for (var j = 0; j < this.defaultGridSize; j++) {
+      this.validationArrays.col[i].push('');
+    }
+  }
 };
 
 Sudoku.prototype.insert = function(xCoordinate, yCoordinate, value) {
