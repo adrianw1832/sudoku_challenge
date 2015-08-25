@@ -34,7 +34,6 @@ $(document).ready(function() {
     var xCoordinate = $(cell.currentTarget).data().row;
     var yCoordinate = $(cell.currentTarget).data().col;
     sudoku.insert(xCoordinate, yCoordinate, value);
-    console.log(value);
   };
 
   buildGUI();
