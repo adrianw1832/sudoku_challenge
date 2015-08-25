@@ -11,7 +11,9 @@ $(document).ready(function() {
       var endTime = new Date();
       var time = (endTime - startTime) / 1000;
       sendResult(time);
+      setTimeout(function () {
       window.location.assign('http://127.0.0.1:9292/results');
+    }, 1000 );
     }
   });
 

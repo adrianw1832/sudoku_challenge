@@ -16,7 +16,6 @@ module Sudoku
         p params[:seconds]
         record = Record.create(time: params[:seconds], user: current_user)
         record.save
-        redirect '/results'
       end
     end
   end
