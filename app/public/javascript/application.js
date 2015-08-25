@@ -15,16 +15,15 @@ $(document).ready(function() {
   });
 
   var sendResult = function(time) {
-    $.ajax( {
+    $.ajax({
       method: 'POST',
       url: 'http://127.0.0.1:9292/results',
-      data: { minutes: time.minutes, seconds: time.seconds}
-    })
+      data: { seconds: time }
+    });
   };
 
   var resultTime = function(time) {
-    var minutes = Math.round((sudoku.endTime - sudoku.startTime)/1000 % 60);
-    var seconds = (sudoku.endTime - sudoku.startTime)/1000/60);
+    return (startTime - endTime)/1000;
   };
 
   var buildGUI = function() {
