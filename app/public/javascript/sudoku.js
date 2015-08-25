@@ -1,7 +1,8 @@
 var Sudoku = function Sudoku() {
   this.validationArrays = {row: [], col: []};
-  this.defaultGridSize = 3;
+  this.defaultGridSize = 9;
   this.buildValidationArrays();
+  this.$cellMatrix = {};
 };
 
 Sudoku.prototype.buildValidationArrays = function() {
@@ -35,3 +36,5 @@ Sudoku.prototype.areColsUnique = function() {
 Sudoku.prototype.isGameFinished = function() {
   return this.areRowsUnique() && this.areColsUnique();
 };
+
+
