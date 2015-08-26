@@ -6,12 +6,24 @@ describe('Sudoku', function() {
   });
 
   describe('Setting up checks that', function() {
-    it('there are default number of rows', function() {
-      expect(Object.keys(sudoku.validationArrays.row).length).toEqual(sudoku.defaultGridSize);
+    it('there are default number of validation rows', function() {
+      expect(sudoku.validationArrays.row.length).toEqual(sudoku.defaultGridSize);
     });
 
-    it('each row has default number of entries', function() {
+    it('each validation row has default number of entries', function() {
       expect(sudoku.validationArrays.row[0].length).toEqual(sudoku.defaultGridSize);
+    });
+
+    it('there are default number of validation columns', function() {
+      expect(sudoku.validationArrays.col.length).toEqual(sudoku.defaultGridSize);
+    });
+
+    it('each validation column has default number of entries', function() {
+      expect(sudoku.validationArrays.col[0].length).toEqual(sudoku.defaultGridSize);
+    });
+
+    it('there are default number of validation sections', function() {
+      expect(sudoku.validationArrays.sect.length).toEqual(sudoku.defaultGridSize);
     });
   });
 
@@ -23,15 +35,21 @@ describe('Sudoku', function() {
 
     it('can insert numbers into the validation col arrays', function() {
       sudoku.insert(1, 0, 2);
-      expect(sudoku.validationArrays.row[0][1]).toEqual(2);
+      expect(sudoku.validationArrays.col[0][1]).toEqual(2);
+    });
+
+    it('can insert numbers into the validation sect arrays', function() {
+      sudoku.insert(1, 0, 2);
+      sudoku.insert(1, 1, 3);
+      expect(sudoku.validationArrays.sect[0]).toEqual([2, 3]);
     });
 
     it('returns true if the array is unqiue', function() {
-      expect(isArrayUnique([1, 2, 3])).toBe(true);
+      expect(isArrayUnique([1, 2, 3, 4, 5, 6, 7, 8, 9])).toBe(true);
     });
 
     it('returns false if the array is not unqiue', function() {
-      expect(isArrayUnique([1, 2, 1])).toBe(false);
+      expect(isArrayUnique([1, 2, 3, 4, 5, 6, 7, 8, 1])).toBe(false);
     });
 
     describe('checking all rows and columns, scenario 1', function() {
@@ -51,7 +69,11 @@ describe('Sudoku', function() {
         expect(sudoku.areColsUnique()).toBe(false);
       });
 
-      it('returns false if not all rows and columns are unique', function() {
+      it('returns false if all the sectionss are not unique', function() {
+        expect(sudoku.areSectsUnique()).toBe(false);
+      });
+
+      it('returns false if not all rows, columns and sections are unique', function() {
         expect(sudoku.isGameFinished()).toBe(false);
       });
     });
@@ -60,7 +82,11 @@ describe('Sudoku', function() {
       beforeEach(function(){
         for (i = 0; i < sudoku.defaultGridSize; i++) {
           for (j = 0; j < sudoku.defaultGridSize; j++) {
-            sudoku.insert(i, j, (i + j + 1) % sudoku.defaultGridSize + 1);
+            if (i % 3 === 0) {
+              sudoku.insert(i, j, ((Math.floor(i / 3) + j + 1) % sudoku.defaultGridSize) === 0 ? 9 : ((Math.floor(i / 3) + j + 1) % sudoku.defaultGridSize));
+            } else {
+              sudoku.insert(i, j, ((Math.floor(i / 3) + j + 1 + 3 * (i % 3)) % sudoku.defaultGridSize) === 0 ? 9 : ((Math.floor(i / 3) + j + 1 + 3 * (i % 3)) % sudoku.defaultGridSize));
+            }
           }
         }
       });
@@ -73,7 +99,11 @@ describe('Sudoku', function() {
         expect(sudoku.areColsUnique()).toBe(true);
       });
 
-      it('returns true if all rows and columns are unique', function() {
+      it('returns true if all the sections are unique', function() {
+        expect(sudoku.areColsUnique()).toBe(true);
+      });
+
+      it('returns true if all rows, columns and sections are unique', function() {
         expect(sudoku.isGameFinished()).toBe(true);
       });
     });
