@@ -1,7 +1,7 @@
 table {
   position: relative;
-  left: 32%;
-  border: 5px solid black;
+  left: 31%;
+  border: 3px solid black;
 }
 
 table input {
@@ -9,9 +9,16 @@ table input {
   height: 45px;
   text-align: center;
   border: 1px solid black;
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
   font-size: 25px;
-  margin-top: 1px;
-  margin-bottom: 1px;
-  margin-right: 1px;
-  margin-left: 0.8px;
+  margin-top: 0.5px;
+  margin-bottom: 0.5px;
+  margin-right: 0.5px;
+  margin-left: 1px;
+  background-color: lightgrey;
+}
+
+.alternate {
+  background-color: white;
 }

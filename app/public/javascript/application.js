@@ -26,16 +26,21 @@ $(document).ready(function() {
   var buildGUI = function() {
     var row;
     var cell;
+    var input;
     for (var i = 0; i < sudoku.defaultGridSize; i++) {
       row = $('<tr>');
       $('#container').append(row);
       for (var j = 0; j < sudoku.defaultGridSize; j++) {
         cell = $('<td>');
-        cell.append($('<input>').attr('maxlength', 1)
+        input = ($('<input>').attr('maxlength', 1)
           .on('keyup', $.proxy(findDetails, this))
           .data('row', i)
           .data('col', j)
         );
+        var sectionRowID = Math.floor(i / 3);
+        var sectionColID = Math.floor(j / 3);
+        if ((sectionRowID + sectionColID) % 2 === 0) input.addClass('alternate');
+        cell.append(input);
         row.append(cell);
       }
     }
