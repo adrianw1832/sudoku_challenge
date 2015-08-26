@@ -49,17 +49,15 @@ feature '#User sign up' do
 end
 
 feature '#User can log in' do
-  let(:user) { user = build(:user) }
+  let!(:user) { user = create(:user) }
 
   scenario 'User gets logged in after signing up' do
-    user = create(:user)
     sign_in_as(user)
     expect(current_path).to eq('/')
     expect(page).to have_content("Welcome, #{user.username}!")
   end
 
   scenario 'User cannot log in while logged in' do
-    user = create(:user)
     sign_in_as(user)
     visit('/sessions/new')
     expect(current_path).to eq('/')
@@ -68,7 +66,6 @@ feature '#User can log in' do
   end
 
   scenario 'User cannot sign up while logged in' do
-    user = create(:user)
     sign_in_as(user)
     visit('/users/new')
     expect(current_path).to eq('/')
