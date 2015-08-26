@@ -3,7 +3,7 @@ module Sudoku
     class Record
       include DataMapper::Resource
       property :id, Serial
-      property :time, String
+      property :time, Integer
       has 1, :user, through: Resource
     end
   end

@@ -1,6 +1,6 @@
 var Sudoku = function Sudoku() {
   this.validationArrays = {row: [], col: []};
-  this.defaultGridSize = 9;
+  this.defaultGridSize = 1;
   this.buildValidationArrays();
 };
 
