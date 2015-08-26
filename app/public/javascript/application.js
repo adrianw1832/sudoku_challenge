@@ -54,4 +54,24 @@ $(document).ready(function() {
   };
 
   buildGUI();
+
+  $('input#autofill').click(function() {
+    var calculateEveryThirdRow = function(i, j) {
+      return ((Math.floor(i / 3) + j + 1) % sudoku.defaultGridSize) === 0 ? 9 : ((Math.floor(i / 3) + j + 1) % sudoku.defaultGridSize);
+    };
+
+    var calculateOtherRows = function(i, j) {
+      return ((Math.floor(i / 3) + j + 1 + 3 * (i % 3)) % sudoku.defaultGridSize) === 0 ? 9 : ((Math.floor(i / 3) + j + 1 + 3 * (i % 3)) % sudoku.defaultGridSize);
+    };
+
+    for (i = 0; i < sudoku.defaultGridSize; i++) {
+      for (j = 0; j < sudoku.defaultGridSize; j++) {
+        if (i % 3 === 0) {
+          sudoku.insert(i, j, calculateEveryThirdRow(i, j));
+        } else {
+          sudoku.insert(i, j, calculateOtherRows(i, j));
+        }
+      }
+    }
+  });
 });
