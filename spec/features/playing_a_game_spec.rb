@@ -1,5 +1,4 @@
 feature 'on the homepage' do
-
   context '#Starting a game' do
     scenario 'player cannot start game unless signed in' do
       visit('/')
@@ -20,14 +19,23 @@ feature 'on the homepage' do
   end
 
   scenario 'shows the results' do
+    user = create :user2
+    record = create :record2
+    user.records << record
+    user.save
+    sign_in_as(user)
     visit '/results'
     expect(page).to have_content 'Results'
+    expect(page).to have_content '1 minutes'
   end
 
   scenario 'shows leaderboard' do
+    create :record
     visit '/'
     expect(page).to have_content 'Leaderboard'
-    within "ul#records"
-    expect(page).to have_content 'User'
+    within 'ul#time' do
+      expect(page).to have_content 'foobar'
+      expect(page).to have_content '1 minutes'
+    end
   end
 end
