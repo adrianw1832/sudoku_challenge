@@ -6,7 +6,7 @@ $(document).ready(function() {
     window.location.assign('http://127.0.0.1:9292/game');
   });
 
-  $('input#finish_game').click(function() {
+  $('input#finish_game').one("click", function() {
     if (sudoku.isGameFinished()) {
       var endTime = new Date();
       var time = (endTime - startTime) / 1000;
