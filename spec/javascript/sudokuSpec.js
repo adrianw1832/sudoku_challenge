@@ -6,12 +6,28 @@ describe('Sudoku', function() {
   });
 
   describe('Setting up checks that', function() {
-    it('there are default number of rows', function() {
-      expect(Object.keys(sudoku.validationArrays.row).length).toEqual(sudoku.defaultGridSize);
+    it('there are default number of validation rows', function() {
+      expect(sudoku.validationArrays.row.length).toEqual(sudoku.defaultGridSize);
     });
 
-    it('each row has default number of entries', function() {
+    it('each validation row has default number of entries', function() {
       expect(sudoku.validationArrays.row[0].length).toEqual(sudoku.defaultGridSize);
+    });
+
+    it('there are default number of validation columns', function() {
+      expect(sudoku.validationArrays.col.length).toEqual(sudoku.defaultGridSize);
+    });
+
+    it('each validation column has default number of entries', function() {
+      expect(sudoku.validationArrays.col[0].length).toEqual(sudoku.defaultGridSize);
+    });
+
+    it('there are default number of validation sections', function() {
+      expect(sudoku.validationArrays.sect.length).toEqual(sudoku.defaultGridSize);
+    });
+
+    it('each validation setion has default number of entries', function() {
+      expect(sudoku.validationArrays.sect[0].length).toEqual(sudoku.defaultGridSize);
     });
   });
 
@@ -23,7 +39,12 @@ describe('Sudoku', function() {
 
     it('can insert numbers into the validation col arrays', function() {
       sudoku.insert(1, 0, 2);
-      expect(sudoku.validationArrays.row[0][1]).toEqual(2);
+      expect(sudoku.validationArrays.col[0][1]).toEqual(2);
+    });
+
+    it('can insert numbers into the validation sect arrays', function() {
+      sudoku.insert(1, 0, 2);
+      expect(sudoku.validationArrays.sect[0]).toEqual(2);
     });
 
     it('returns true if the array is unqiue', function() {
