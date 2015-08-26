@@ -31,9 +31,6 @@ Sudoku.prototype.buildValidationColumns = function() {
 Sudoku.prototype.buildValidationSections = function() {
   for (var i = 0; i < this.defaultGridSize; i++) {
     this.validationArrays.sect.push([]);
-    for (var j = 0; j < this.defaultGridSize; j++) {
-      this.validationArrays.sect[i].push('');
-    }
   }
 };
 
@@ -44,6 +41,11 @@ Sudoku.prototype.insert = function(xCoordinate, yCoordinate, value) {
 };
 
 Sudoku.prototype.calculateValidationSection = function(xCoordinate, yCoordinate, value) {
+  var sectionRowID = Math.floor(xCoordinate / 3);
+  var sectionColID = Math.floor(yCoordinate / 3);
+  var sectionID = sectionRowID + 3 * sectionColID;
+  this.validationArrays.sect[sectionID].push(value);
+
 };
 
 var isArrayUnique = function(element, index, array) {
@@ -60,6 +62,10 @@ Sudoku.prototype.areColsUnique = function() {
   return this.validationArrays.col.every(isArrayUnique);
 };
 
+Sudoku.prototype.areSectsUnique = function() {
+  return this.validationArrays.sect.every(isArrayUnique);
+};
+
 Sudoku.prototype.isGameFinished = function() {
-  return this.areRowsUnique() && this.areColsUnique();
+  return this.areRowsUnique() && this.areColsUnique() && this.areSectsUnique();
 };
