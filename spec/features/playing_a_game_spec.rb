@@ -13,8 +13,12 @@ feature 'on the homepage' do
     end
   end
 
-  scenario 'starting a game' do
-    visit '/game'
+  scenario 'starting a game', js: true do
+    user = build :user
+    sign_up_as(user)
+    visit '/'
+    click_button "Start Game"
+    expect(current_path).to eq '/game'
     expect(page).to have_content 'Have fun'
   end
 
