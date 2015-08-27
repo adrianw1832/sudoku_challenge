@@ -11,9 +11,9 @@ $(document).ready(function() {
       var endTime = new Date();
       var time = (endTime - startTime) / 1000;
       sendResult(time);
-      setTimeout(function() {
-        window.location.assign('http://127.0.0.1:9292/results');
-      }, 1000);
+      setTimeout(function () {
+      window.location.assign('http://127.0.0.1:9292/results');
+    }, 1000 );
     }
   });
 
@@ -55,58 +55,90 @@ $(document).ready(function() {
 
   buildGUI();
 
-  $('input#autofill').click(function() {
-    var calculateEveryThirdRow = function(i, j) {
-      return ((Math.floor(i / 3) + j + 1) % sudoku.defaultGridSize) === 0 ? 9 : ((Math.floor(i / 3) + j + 1) % sudoku.defaultGridSize);
-    };
+  // $('input#autofill').click(function() {
+  //   var calculateEveryThirdRow = function(i, j) {
+  //     return ((Math.floor(i / 3) + j + 1) % sudoku.defaultGridSize) === 0 ? 9 : ((Math.floor(i / 3) + j + 1) % sudoku.defaultGridSize);
+  //   };
 
-    var calculateOtherRows = function(i, j) {
-      return ((Math.floor(i / 3) + j + 1 + 3 * (i % 3)) % sudoku.defaultGridSize) === 0 ? 9 : ((Math.floor(i / 3) + j + 1 + 3 * (i % 3)) % sudoku.defaultGridSize);
-    };
+  //   var calculateOtherRows = function(i, j) {
+  //     return ((Math.floor(i / 3) + j + 1 + 3 * (i % 3)) % sudoku.defaultGridSize) === 0 ? 9 : ((Math.floor(i / 3) + j + 1 + 3 * (i % 3)) % sudoku.defaultGridSize);
+  //   };
 
-    for (i = 0; i < sudoku.defaultGridSize; i++) {
-      for (j = 0; j < sudoku.defaultGridSize; j++) {
-        if (i % 3 === 0) {
-          sudoku.insert(i, j, calculateEveryThirdRow(i, j));
-          $('#container tr input').eq(9 * i + j).val(calculateOtherRows(i, j));
-        } else {
-          sudoku.insert(i, j, calculateOtherRows(i, j));
-          $('#container tr input').eq(9 * i + j).val(calculateOtherRows(i, j));
-        }
-      }
-    }
-  });
+  //   for (i = 0; i < sudoku.defaultGridSize; i++) {
+  //     for (j = 0; j < sudoku.defaultGridSize; j++) {
+  //       if (i % 3 === 0) {
+  //         sudoku.insert(i, j, calculateEveryThirdRow(i, j));
+  //         $('#container tr input').eq(9 * i + j).val(calculateOtherRows(i, j));
+  //       } else {
+  //         sudoku.insert(i, j, calculateOtherRows(i, j));
+  //         $('#container tr input').eq(9 * i + j).val(calculateOtherRows(i, j));
+  //       }
+  //     }
+  //   }
+  // });
+
+  var convertArrayToIntegers = function(array) {
+    return array.map(function (x) { return parseInt(x, 10); });
+  };
+
+  var getRangeOfPossibleValues = function(i, j) {
+    var possibleValuesOfRow = sudoku.validationArrays.row[i];
+    var possibleValuesOfColumn = sudoku.validationArrays.col[j];
+    var sectionID = sudoku.calculateValidationSection(i, j);
+    var possibleValuesOfSection = sudoku.validationArrays.sect[sectionID];
+    var preFilteredArray = _.union(possibleValuesOfRow, possibleValuesOfColumn, possibleValuesOfSection);
+    var changedArray = convertArrayToIntegers(preFilteredArray);
+    var filteredArray = changedArray.filter(function(n){ return /[1-9]/.test(n); });
+    return _.uniq(filteredArray);
+  };
+
+  // var backTrack = function(i, j) {
+
+  // };
 
   var runAlgorithm = function(array) {
-    var xCoordinate, yCoordinate, avaliableValue, position;
-    for (counter = 0; counter < 81; counter++) {
-      position = counter;
-      xCoordinate = position % 9;
-      yCoordinate = Math.floor(position / 9);
-      getRangeOfPossibleValues();
+    var range = _.range(1, 10);
+    var avaliableValues, existingValues, position, chosenValue;
+      for (var i = 0; i < sudoku.defaultGridSize; i++) {
+        for (var j = 0; j < sudoku.defaultGridSize; j++) {
+          position = 9 * i + j;
+          existingValues = convertArrayToIntegers(getRangeOfPossibleValues(i, j));
+          avaliableValues = _.difference(range, existingValues);
+          chosenValue = _.sample(avaliableValues);
+          sudoku.insert(i, j, chosenValue);
+          $('#container tr input').eq(position).val(chosenValue);
+          while (sudoku.isGameGenerated() === false) {
+            avaliableValues = _.without(avaliableValues, chosenValue);
+            sudoku.remove(i, j);
+            $('#container tr input').eq(position).val('');
+            chosenValue = _.sample(avaliableValues);
+            sudoku.insert(i, j, chosenValue);
+            $('#container tr input').eq(position).val(chosenValue);
+            // backtrack();
+          }
+     }
+    }
+  };
 
-    }
-  };
-  var randomFill = function(array) {
-    var xCoordinate, yCoordinate, randomValue, number;
-    for (i = 0; i < 40; i++) {
-      number = array[i];
-      xCoordinate = number % 9;
-      yCoordinate = Math.floor(number / 9);
-      randomValue = _.random(1, 9);
-      $('#container tr input').eq(number).val(randomValue);
-      sudoku.insert(xCoordinate, yCoordinate, randomValue);
-      if (sudoku.isGameGenerated() === false) {
-        sudoku.validationArrays.row[xCoordinate][yCoordinate] = '';
-        sudoku.validationArrays.col[yCoordinate][xCoordinate] = '';
-        var sectionRowID = Math.floor(xCoordinate / 3);
-        var sectionColID = Math.floor(yCoordinate / 3);
-        var sectionID = sectionRowID + 3 * sectionColID;
-        sudoku.validationArrays.sect[sectionID].pop();
-        $('#container tr input').eq(number).val('');
-      }
-    }
-  };
+  // var randomFill = function(array) {
+  //   var xCoordinate, yCoordinate, randomValue, number;
+  //   for (i = 0; i < 40; i++) {
+  //     number = array[i];
+  //     xCoordinate = number % 9;
+  //     yCoordinate = Math.floor(number / 9);
+  //     randomValue = _.random(1, 9);
+  //     sudoku.insert(xCoordinate, yCoordinate, randomValue);
+  //     $('#container tr input').eq(number).val(randomValue);
+  //   if (sudoku.isGameGenerated() === false) {
+  //     sudoku.remove(xCoordinate, yCoordinate);
+  //     $('#container tr input').eq(number).val('');
+  //   }
+  // }
+  // };
+
+  $('input#autofill').click(function() {
+    runAlgorithm();
+  });
 
   // $('input#autofill').click(function() {
   //   var randomPositionsArray = _.sample(_.range(81), 40);
