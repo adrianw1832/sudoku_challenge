@@ -1,4 +1,5 @@
 var Sudoku = function Sudoku() {
+  this.memoryMatrix = [];
   this.validationArrays = {row: [], col: [], sect: []};
   this.defaultGridSize = 9;
   this.buildValidationArrays();
@@ -37,15 +38,15 @@ Sudoku.prototype.buildValidationSections = function() {
 Sudoku.prototype.insert = function(xCoordinate, yCoordinate, value) {
   this.validationArrays.row[xCoordinate][yCoordinate] = value;
   this.validationArrays.col[yCoordinate][xCoordinate] = value;
-  this.calculateValidationSection(xCoordinate, yCoordinate, value);
+  var sectionID = this.calculateValidationSection(xCoordinate, yCoordinate);
+  this.validationArrays.sect[sectionID].push(value);
 };
 
 Sudoku.prototype.calculateValidationSection = function(xCoordinate, yCoordinate, value) {
   var sectionRowID = Math.floor(xCoordinate / 3);
   var sectionColID = Math.floor(yCoordinate / 3);
   var sectionID = sectionRowID + 3 * sectionColID;
-  this.validationArrays.sect[sectionID].push(value);
-
+  return sectionID;
 };
 
 var isArrayUnique = function(element, index, array) {
@@ -68,6 +69,13 @@ Sudoku.prototype.areSectsUnique = function() {
 
 Sudoku.prototype.isGameFinished = function() {
   return this.areRowsUnique() && this.areColsUnique() && this.areSectsUnique();
+};
+
+Sudoku.prototype.remove = function(xCoordinate, yCoordinate) {
+  this.validationArrays.row[xCoordinate][yCoordinate] = '';
+  this.validationArrays.col[yCoordinate][xCoordinate] = '';
+  var sectionID = this.calculateValidationSection(xCoordinate, yCoordinate);
+  this.validationArrays.sect[sectionID].pop();
 };
 
 var isGeneratedUnique = function(element, index, array) {
