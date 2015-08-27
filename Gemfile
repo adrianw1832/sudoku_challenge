@@ -13,7 +13,7 @@ gem 'sinatra-flash'
 gem 'sinatra-partial'
 
 group :test do
-  gem 'selenium-webdriver'
+  gem 'selenium-webkit'
   gem 'capybara'
   gem 'database_cleaner'
   gem 'rspec'
