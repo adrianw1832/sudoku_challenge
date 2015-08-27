@@ -69,3 +69,24 @@ Sudoku.prototype.areSectsUnique = function() {
 Sudoku.prototype.isGameFinished = function() {
   return this.areRowsUnique() && this.areColsUnique() && this.areSectsUnique();
 };
+
+var isGeneratedUnique = function(element, index, array) {
+  var filteredArray = element.filter(function(n){ return /[1-9]/.test(n); });
+  return _.uniq(filteredArray).length === filteredArray.length;
+};
+
+Sudoku.prototype.areRowsGenerated = function() {
+  return this.validationArrays.row.every(isGeneratedUnique);
+};
+
+Sudoku.prototype.areColsGenerated = function() {
+  return this.validationArrays.col.every(isGeneratedUnique);
+};
+
+Sudoku.prototype.areSectsGenerated = function() {
+  return this.validationArrays.sect.every(isGeneratedUnique);
+};
+
+Sudoku.prototype.isGameGenerated = function() {
+  return this.areRowsGenerated() && this.areColsGenerated() && this.areSectsGenerated();
+};
