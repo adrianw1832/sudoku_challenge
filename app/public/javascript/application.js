@@ -11,9 +11,9 @@ $(document).ready(function() {
       var endTime = new Date();
       var time = (endTime - startTime) / 1000;
       sendResult(time);
-      setTimeout(function () {
-      window.location.assign('http://127.0.0.1:9292/results');
-    }, 1000 );
+      setTimeout(function() {
+        window.location.assign('http://127.0.0.1:9292/results');
+      }, 1000);
     }
   });
 
@@ -96,16 +96,16 @@ $(document).ready(function() {
       randomValue = _.random(1, 9);
       $('#container tr input').eq(number).val(randomValue);
       sudoku.insert(xCoordinate, yCoordinate, randomValue);
-    if (sudoku.isGameGenerated() === false) {
-      sudoku.validationArrays.row[xCoordinate][yCoordinate] = '';
-      sudoku.validationArrays.col[yCoordinate][xCoordinate] = '';
-      var sectionRowID = Math.floor(xCoordinate / 3);
-      var sectionColID = Math.floor(yCoordinate / 3);
-      var sectionID = sectionRowID + 3 * sectionColID;
-      sudoku.validationArrays.sect[sectionID].pop();
-      $('#container tr input').eq(number).val('');
+      if (sudoku.isGameGenerated() === false) {
+        sudoku.validationArrays.row[xCoordinate][yCoordinate] = '';
+        sudoku.validationArrays.col[yCoordinate][xCoordinate] = '';
+        var sectionRowID = Math.floor(xCoordinate / 3);
+        var sectionColID = Math.floor(yCoordinate / 3);
+        var sectionID = sectionRowID + 3 * sectionColID;
+        sudoku.validationArrays.sect[sectionID].pop();
+        $('#container tr input').eq(number).val('');
+      }
     }
-  }
   };
 
   // $('input#autofill').click(function() {

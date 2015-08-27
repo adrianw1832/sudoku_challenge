@@ -1,5 +1,5 @@
 feature '#User sign up' do
-  let(:user) { user = build(:user) }
+  let(:user) { build(:user) }
 
   scenario 'User can sign up as a new user' do
     sign_up_as(user)
@@ -49,7 +49,7 @@ feature '#User sign up' do
 end
 
 feature '#User can log in' do
-  let!(:user) { user = create(:user) }
+  let!(:user) { create(:user) }
 
   scenario 'User gets logged in after signing up' do
     sign_in_as(user)
