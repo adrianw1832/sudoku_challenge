@@ -1,0 +1,47 @@
+body {
+  background: url("http://thewallpaperhost.com/wp-content/uploads/2014/12/Abstract-HD-Wallpapers.jpg");
+  no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  position: absolute;
+  width: 100%;
+}
+input#start_game_button {
+  position: relative;
+  float: left;
+  left: 5%;
+  margin-top: 26%;
+  font: 150% sans-serif;
+  width: 10%;
+  opacity: 0.8;
+  color: white;
+  background-color: #2d2d2e;
+  border: none;
+}
+article#leaderboard {
+  font-size: 120%;
+  position: relative;
+  text-align: center;
+  color: white;
+  float: left;
+  left: 30%;
+  margin-top: 28%;
+  background-color: #2d2d2e;
+  width: 40%;
+  background: none;
+}
+ul#time {
+  width: 90%;
+  list-style-type: none;
+  text-align: center;
+  font-size: 130%;
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+}

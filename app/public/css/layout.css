@@ -1,0 +1,27 @@
+#header {
+  color: white;
+}
+#log {
+  background: none;
+  border: none;
+  font-size: 140%;
+}
+#log a {
+  display: inline-block;
+  color: white;
+}
+#log input {
+  background: none;
+  border: none;
+}
+#logo {
+  font-size: 140%;
+}
+#logo a {
+  display: inline-block;
+  color: white;
+}
+#logo button {
+  background: none;
+  border: none;
+}

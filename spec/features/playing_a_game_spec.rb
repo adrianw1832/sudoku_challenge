@@ -48,7 +48,7 @@ feature 'on the homepage' do
     create :record
     visit '/'
     expect(page).to have_content 'Leaderboard'
-    within 'ul#time' do
+    within 'ol#time' do
       expect(page).to have_content 'foobar'
       expect(page).to have_content '1 minutes'
     end
