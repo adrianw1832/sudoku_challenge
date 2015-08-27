@@ -1,21 +1,28 @@
 <header>
-  <div id="logo">
-  <a href="/">Leaderboard</a>
-  </div>
+  <body id="header">
 
-  <div id="user">
     <% if current_user %>
-      <span>
-          <p>Welcome, <%= @current_user.username %>!</p>
-      </span>
-
+    <h1 id="greeting">
+      Welcome,
+      <%= @current_user.username %>!
+    </h1>
+    <section id="log">
       <form action="/sessions" method="post">
-        <input type="hidden" name="_method" value="delete" />
-        <input type="submit" value="Log out" />
+        <input name="_method" type="hidden" value="delete"/>
+        <input type="submit" value="Log out"/>
       </form>
-    <% else %>
-        <a href="/users/new" id="register" class="button">Register</a>
-        <a href="/sessions/new" id="log-in" class="button">Log in</a>
-    <% end %>
-  </div>
+      <% else %>
+      <a class="button" href="/users/new" id="register">Register</a>
+      <a class="button" href="/sessions/new" id="log-in">Log in</a>
+      <% end %>
+    </section>
+
+    <div id="logo">
+      <a href="/">
+        <button>
+          Leaderboard
+        </button>
+      </a>
+    </div>
+  </body>
 </header>

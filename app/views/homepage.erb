@@ -1,20 +1,28 @@
 <head>
-    <title>Sudoku</title>
+  <title>Sudoku</title>
+  <link href="css/normalize.css" rel="stylesheet">
+  <link href="css/homepage.css" rel="stylesheet">
 </head>
 
 <body>
-    <% if current_user %>
-      <input type="submit" id="start_game_button" value="Start Game" />
-    <% end %>
+  <article id="leaderboard">
     <h1>Leaderboard</h1>
     <ul id="time">
-        <% @records.each do |each_record| %>
-            <li>
-                User: <%= each_record.user.username %>
-                Time: <%= time_to_minutes(each_record.time) %>
-            </li>
-            <% end %>
+      <% @records.each do |each_record| %>
+      <li>
+        User:
+        <%= each_record.user.username %>
+        -----
+        <%= time_to_minutes(each_record.time) %>
+      </li>
+      <% end %>
     </ul>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script type="text/javascript" src="javascript/application.js"></script>
+  </article>
+
+  <% if current_user %>
+  <input id="start_game_button" type="submit" value="Start Game"/>
+  <% end %>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="javascript/application.js" type="text/javascript"></script>
 </body>

@@ -6,6 +6,6 @@ module AppHelpers
   def time_to_minutes(time)
     minutes = time / 60
     seconds = time % 60
-    return "#{minutes} minutes #{seconds} seconds"
+    minutes >= 1 ? "#{minutes}m #{seconds}s" : "#{seconds}s"
   end
 end
