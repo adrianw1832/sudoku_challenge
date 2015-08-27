@@ -1,6 +1,7 @@
 module Helpers
   def sign_up_as(user)
-    visit('/users/new')
+    visit('/')
+    click_link('Register')
     fill_in('email', with: user.email)
     fill_in('password', with: user.password)
     fill_in('password_confirmation', with: user.password_confirmation)
@@ -9,7 +10,8 @@ module Helpers
   end
 
   def sign_in_as(user)
-    visit('/sessions/new')
+    visit('/')
+    click_link('Log in')
     fill_in('username', with: user.username)
     fill_in('password', with: user.password)
     click_button('Log in')

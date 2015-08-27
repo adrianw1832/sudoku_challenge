@@ -54,4 +54,53 @@ $(document).ready(function() {
   };
 
   buildGUI();
+
+  // $('input#autofill').click(function() {
+  //   var calculateEveryThirdRow = function(i, j) {
+  //     return ((Math.floor(i / 3) + j + 1) % sudoku.defaultGridSize) === 0 ? 9 : ((Math.floor(i / 3) + j + 1) % sudoku.defaultGridSize);
+  //   };
+
+  //   var calculateOtherRows = function(i, j) {
+  //     return ((Math.floor(i / 3) + j + 1 + 3 * (i % 3)) % sudoku.defaultGridSize) === 0 ? 9 : ((Math.floor(i / 3) + j + 1 + 3 * (i % 3)) % sudoku.defaultGridSize);
+  //   };
+
+  //   for (i = 0; i < sudoku.defaultGridSize; i++) {
+  //     for (j = 0; j < sudoku.defaultGridSize; j++) {
+  //       if (i % 3 === 0) {
+  //         sudoku.insert(i, j, calculateEveryThirdRow(i, j));
+  //       } else {
+  //         sudoku.insert(i, j, calculateOtherRows(i, j));
+  //       }
+  //     }
+  //   }
+  // });
+
+  var randomFill = function(array) {
+    var xCoordinate, yCoordinate, randomValue, number;
+    for (i = 0; i < 40; i++) {
+      number = array[i];
+      xCoordinate = number % 9;
+      yCoordinate = Math.floor(number / 9);
+      randomValue = _.random(1, 9);
+      console.log(xCoordinate);
+      console.log(yCoordinate);
+      console.log(randomValue);
+      $('#container tr input').eq(number).val(randomValue);
+      sudoku.insert(xCoordinate, yCoordinate, randomValue);
+    if (sudoku.isGameGenerated() === false) {
+      sudoku.validationArrays.row[xCoordinate][yCoordinate] = '';
+      sudoku.validationArrays.col[yCoordinate][xCoordinate] = '';
+      var sectionRowID = Math.floor(xCoordinate / 3);
+      var sectionColID = Math.floor(yCoordinate / 3);
+      var sectionID = sectionRowID + 3 * sectionColID;
+      sudoku.validationArrays.sect[sectionID].pop();
+      $('#container tr input').eq(number).val('');
+    }
+  }
+  };
+
+  $('input#autofill').click(function() {
+    var randomPositionsArray = _.sample(_.range(81), 40);
+    randomFill(randomPositionsArray);
+  });
 });

@@ -1,35 +1,16 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <title>Sudoku</title>
+  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="/css/application.css">
 </head>
 
 <body>
-<% if current_user %>
-    <span>
-        <p>Welcome, <%= @current_user.username %>!</p>
-    </span>
-
-    <form action="/sessions" method="post">
-      <input type="hidden" name="_method" value="delete" />
-      <input type="submit" value="Log out" />
-    </form>
-<% end %>
-
-<% if flash[:notice] %>
-  <div class='flash notice'>
-    <%= flash[:notice] %>
-  </div>
-<% end %>
-
-<% if flash[:errors] && !flash[:errors].empty? %>
-  <ul>
-    <% flash[:errors].each do |error| %>
-      <li class='flash error'><%= error %></li>
-    <% end %>
-  </ul>
-<% end %>
-<%= yield %>
+  <%= partial :header %>
+  <%= partial :flash %>
+  <%= yield %>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
   <script src="javascript/sudoku.js"></script>
