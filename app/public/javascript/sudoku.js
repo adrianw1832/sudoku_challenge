@@ -9,6 +9,16 @@ Sudoku.prototype.buildValidationArrays = function() {
   this.buildValidationRows();
   this.buildValidationColumns();
   this.buildValidationSections();
+  this.buildMemoryMatrix();
+};
+
+Sudoku.prototype.buildMemoryMatrix = function() {
+  for (var i = 0; i < this.defaultGridSize; i++) {
+    this.memoryMatrix.push([]);
+    for (var j = 0; j < this.defaultGridSize; j++) {
+      this.memoryMatrix[i].push('');
+    }
+  }
 };
 
 Sudoku.prototype.buildValidationRows = function() {
@@ -40,6 +50,7 @@ Sudoku.prototype.insert = function(xCoordinate, yCoordinate, value) {
   this.validationArrays.col[yCoordinate][xCoordinate] = value;
   var sectionID = this.calculateValidationSection(xCoordinate, yCoordinate);
   this.validationArrays.sect[sectionID].push(value);
+  this.memoryMatrix[xCoordinate][yCoordinate] = value;
 };
 
 Sudoku.prototype.calculateValidationSection = function(xCoordinate, yCoordinate, value) {
