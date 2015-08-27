@@ -55,26 +55,38 @@ $(document).ready(function() {
 
   buildGUI();
 
-  // $('input#autofill').click(function() {
-  //   var calculateEveryThirdRow = function(i, j) {
-  //     return ((Math.floor(i / 3) + j + 1) % sudoku.defaultGridSize) === 0 ? 9 : ((Math.floor(i / 3) + j + 1) % sudoku.defaultGridSize);
-  //   };
+  $('input#autofill').click(function() {
+    var calculateEveryThirdRow = function(i, j) {
+      return ((Math.floor(i / 3) + j + 1) % sudoku.defaultGridSize) === 0 ? 9 : ((Math.floor(i / 3) + j + 1) % sudoku.defaultGridSize);
+    };
 
-  //   var calculateOtherRows = function(i, j) {
-  //     return ((Math.floor(i / 3) + j + 1 + 3 * (i % 3)) % sudoku.defaultGridSize) === 0 ? 9 : ((Math.floor(i / 3) + j + 1 + 3 * (i % 3)) % sudoku.defaultGridSize);
-  //   };
+    var calculateOtherRows = function(i, j) {
+      return ((Math.floor(i / 3) + j + 1 + 3 * (i % 3)) % sudoku.defaultGridSize) === 0 ? 9 : ((Math.floor(i / 3) + j + 1 + 3 * (i % 3)) % sudoku.defaultGridSize);
+    };
 
-  //   for (i = 0; i < sudoku.defaultGridSize; i++) {
-  //     for (j = 0; j < sudoku.defaultGridSize; j++) {
-  //       if (i % 3 === 0) {
-  //         sudoku.insert(i, j, calculateEveryThirdRow(i, j));
-  //       } else {
-  //         sudoku.insert(i, j, calculateOtherRows(i, j));
-  //       }
-  //     }
-  //   }
-  // });
+    for (i = 0; i < sudoku.defaultGridSize; i++) {
+      for (j = 0; j < sudoku.defaultGridSize; j++) {
+        if (i % 3 === 0) {
+          sudoku.insert(i, j, calculateEveryThirdRow(i, j));
+          $('#container tr input').eq(9 * i + j).val(calculateOtherRows(i, j));
+        } else {
+          sudoku.insert(i, j, calculateOtherRows(i, j));
+          $('#container tr input').eq(9 * i + j).val(calculateOtherRows(i, j));
+        }
+      }
+    }
+  });
 
+  var runAlgorithm = function(array) {
+    var xCoordinate, yCoordinate, avaliableValue, position;
+    for (counter = 0; counter < 81; counter++) {
+      position = counter;
+      xCoordinate = position % 9;
+      yCoordinate = Math.floor(position / 9);
+      getRangeOfPossibleValues();
+
+    }
+  };
   var randomFill = function(array) {
     var xCoordinate, yCoordinate, randomValue, number;
     for (i = 0; i < 40; i++) {
@@ -82,9 +94,6 @@ $(document).ready(function() {
       xCoordinate = number % 9;
       yCoordinate = Math.floor(number / 9);
       randomValue = _.random(1, 9);
-      console.log(xCoordinate);
-      console.log(yCoordinate);
-      console.log(randomValue);
       $('#container tr input').eq(number).val(randomValue);
       sudoku.insert(xCoordinate, yCoordinate, randomValue);
     if (sudoku.isGameGenerated() === false) {
@@ -99,8 +108,8 @@ $(document).ready(function() {
   }
   };
 
-  $('input#autofill').click(function() {
-    var randomPositionsArray = _.sample(_.range(81), 40);
-    randomFill(randomPositionsArray);
-  });
+  // $('input#autofill').click(function() {
+  //   var randomPositionsArray = _.sample(_.range(81), 40);
+  //   randomFill(randomPositionsArray);
+  // });
 });
