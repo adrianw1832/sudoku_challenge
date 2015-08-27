@@ -1,24 +1,41 @@
 table {
   position: relative;
-  left: 31%;
+  left: 35%;
   border: 3px solid black;
 }
-
 table input {
-  width: 45px;
-  height: 45px;
+  width: 47px;
+  height: 47px;
   text-align: center;
   border: 1px solid black;
   border-right: 2px solid black;
   border-bottom: 2px solid black;
   font-size: 25px;
+  color: black;
   margin-top: 0.5px;
   margin-bottom: 0.5px;
   margin-right: 0.5px;
   margin-left: 1px;
   background-color: lightgrey;
 }
-
 .alternate {
   background-color: white;
+}
+body h2 {
+  position: relative;
+  margin-top: -5%;
+  font-size: 300%;
+  text-align: center;
+}
+input#finish_game {
+  font-size: 200%;
+  background: none;
+  border: none;
+  position: relative;
+  left: 47%;
+}
+input#autofill {
+  font-size: 130%;
+  background: none;
+  border: none;
 }

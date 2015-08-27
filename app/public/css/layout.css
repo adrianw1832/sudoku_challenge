@@ -1,3 +1,18 @@
+body {
+  background: url("http://thewallpaperhost.com/wp-content/uploads/2014/12/Abstract-HD-Wallpapers.jpg");
+  no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  position: absolute;
+  width: 100%;
+}
+
 #header {
   color: white;
 }

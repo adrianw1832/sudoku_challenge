@@ -1,0 +1,14 @@
+#results {
+  position: relative;
+  margin-top: 28%;
+  text-align: center;
+}
+#results h1 {
+  font-size: 350%;
+}
+#results h2 {
+  font-size: 300%;
+}
+#results h3 {
+  font-size: 150%;
+}
