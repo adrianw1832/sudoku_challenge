@@ -7,38 +7,37 @@ $(document).ready(function() {
   });
 
   $('input#finish_game').one("click", function() {
+    console.log(sudoku.areRowsUnique());
+    console.log(sudoku.areColsUnique());
+    console.log(sudoku.areSectsUnique());
     if (sudoku.isGameFinished()) {
       var endTime = new Date();
-      var time = (endTime - startTime) / 1000;
-      sendResult(time);
+      var timeTaken = (endTime - startTime) / 1000;
+      sendResult(timeTaken);
       setTimeout(function () {
       window.location.assign('http://127.0.0.1:9292/results');
     }, 1000 );
     }
   });
 
-  var sendResult = function(time) {
-    $.post('http://127.0.0.1:9292/results', {
-      seconds: time
-    });
+  var sendResult = function(timeTaken) {
+    $.post('http://127.0.0.1:9292/results', { seconds: timeTaken });
   };
 
   var buildGUI = function() {
-    var row;
-    var cell;
-    var input;
-    for (var i = 0; i < sudoku.defaultGridSize; i++) {
+    var row, cell, input, sectionRowID, sectionColID;
+    for (var rowID = 0; rowID < sudoku.defaultGridSize; rowID++) {
       row = $('<tr>');
       $('#container').append(row);
-      for (var j = 0; j < sudoku.defaultGridSize; j++) {
+      for (var colID = 0; colID < sudoku.defaultGridSize; colID++) {
         cell = $('<td>');
         input = ($('<input>').attr('maxlength', 1)
           .on('keyup', $.proxy(findDetails, this))
-          .data('row', i)
-          .data('col', j)
+          .data('row', rowID)
+          .data('col', colID)
         );
-        var sectionRowID = Math.floor(i / 3);
-        var sectionColID = Math.floor(j / 3);
+        sectionRowID = Math.floor(rowID / 3);
+        sectionColID = Math.floor(colID / 3);
         if ((sectionRowID + sectionColID) % 2 === 0) input.addClass('alternate');
         cell.append(input);
         row.append(cell);
@@ -85,14 +84,14 @@ $(document).ready(function() {
     return array.map(function (element) { return parseInt(element); });
   };
 
-  var getExistingValues = function(i, j) {
-    var possibleValuesOfRow = sudoku.validationArrays.row[i];
-    var possibleValuesOfColumn = sudoku.validationArrays.col[j];
-    var sectionID = sudoku.calculateValidationSection(i, j);
-    var possibleValuesOfSection = sudoku.validationArrays.sect[sectionID];
-    var preFilteredArray = _.union(possibleValuesOfRow, possibleValuesOfColumn, possibleValuesOfSection);
-    var changedArray = convertArrayElementsToIntegers(preFilteredArray);
-    var filteredArray = changedArray.filter(function(n){ return /[1-9]/.test(n); });
+  var getExistingValues = function(rowID, colID) {
+    var existingValuesOfRow = sudoku.validationArrays.row[rowID];
+    var existingValuesOfColumn = sudoku.validationArrays.col[colID];
+    var sectionID = sudoku.calculateValidationSection(rowID, colID);
+    var existingValuesOfSection = sudoku.validationArrays.sect[sectionID];
+    var preFilteredArray = _.union(existingValuesOfRow, existingValuesOfColumn, existingValuesOfSection);
+    var convertedArray = convertArrayElementsToIntegers(preFilteredArray);
+    var filteredArray = convertedArray.filter(function(element){ return /[1-9]/.test(element); });
     return _.uniq(filteredArray);
   };
 

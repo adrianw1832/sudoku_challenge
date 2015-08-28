@@ -1,5 +1,4 @@
 var Sudoku = function Sudoku() {
-  this.memoryMatrix = [];
   this.validationArrays = {row: [], col: [], sect: []};
   this.defaultGridSize = 9;
   this.buildValidationArrays();
@@ -9,53 +8,49 @@ Sudoku.prototype.buildValidationArrays = function() {
   this.buildValidationRows();
   this.buildValidationColumns();
   this.buildValidationSections();
-  this.buildMemoryMatrix();
-};
-
-Sudoku.prototype.buildMemoryMatrix = function() {
-  for (var i = 0; i < this.defaultGridSize; i++) {
-    this.memoryMatrix.push([]);
-    for (var j = 0; j < this.defaultGridSize; j++) {
-      this.memoryMatrix[i].push('');
-    }
-  }
 };
 
 Sudoku.prototype.buildValidationRows = function() {
-  for (var i = 0; i < this.defaultGridSize; i++) {
+  for (var rowID = 0; rowID < this.defaultGridSize; rowID++) {
     this.validationArrays.row.push([]);
-    for (var j = 0; j < this.defaultGridSize; j++) {
-      this.validationArrays.row[i].push('');
+    for (var colID = 0; colID < this.defaultGridSize; colID++) {
+      this.validationArrays.row[rowID].push('');
     }
   }
 };
 
 Sudoku.prototype.buildValidationColumns = function() {
-  for (var i = 0; i < this.defaultGridSize; i++) {
+  for (var rowID = 0; rowID < this.defaultGridSize; rowID++) {
     this.validationArrays.col.push([]);
-    for (var j = 0; j < this.defaultGridSize; j++) {
-      this.validationArrays.col[i].push('');
+    for (var colID = 0; colID < this.defaultGridSize; colID++) {
+      this.validationArrays.col[rowID].push('');
     }
   }
 };
 
 Sudoku.prototype.buildValidationSections = function() {
-  for (var i = 0; i < this.defaultGridSize; i++) {
+  for (var rowID = 0; rowID < this.defaultGridSize; rowID++) {
     this.validationArrays.sect.push([]);
   }
 };
 
-Sudoku.prototype.insert = function(xCoordinate, yCoordinate, value) {
-  this.validationArrays.row[xCoordinate][yCoordinate] = value;
-  this.validationArrays.col[yCoordinate][xCoordinate] = value;
-  var sectionID = this.calculateValidationSection(xCoordinate, yCoordinate);
+Sudoku.prototype.insert = function(rowID, colID, value) {
+  this.validationArrays.row[rowID][colID] = value;
+  this.validationArrays.col[colID][rowID] = value;
+  var sectionID = this.calculateValidationSection(rowID, colID);
   this.validationArrays.sect[sectionID].push(value);
-  this.memoryMatrix[xCoordinate][yCoordinate] = value;
 };
 
-Sudoku.prototype.calculateValidationSection = function(xCoordinate, yCoordinate, value) {
-  var sectionRowID = Math.floor(xCoordinate / 3);
-  var sectionColID = Math.floor(yCoordinate / 3);
+Sudoku.prototype.remove = function(rowID, colID) {
+  this.validationArrays.row[rowID][colID] = '';
+  this.validationArrays.col[colID][rowID] = '';
+  var sectionID = this.calculateValidationSection(rowID, colID);
+  this.validationArrays.sect[sectionID].pop();
+};
+
+Sudoku.prototype.calculateValidationSection = function(rowID, colID) {
+  var sectionRowID = Math.floor(rowID / 3);
+  var sectionColID = Math.floor(colID / 3);
   var sectionID = sectionRowID + 3 * sectionColID;
   return sectionID;
 };
@@ -80,32 +75,4 @@ Sudoku.prototype.areSectsUnique = function() {
 
 Sudoku.prototype.isGameFinished = function() {
   return this.areRowsUnique() && this.areColsUnique() && this.areSectsUnique();
-};
-
-Sudoku.prototype.remove = function(xCoordinate, yCoordinate) {
-  this.validationArrays.row[xCoordinate][yCoordinate] = '';
-  this.validationArrays.col[yCoordinate][xCoordinate] = '';
-  var sectionID = this.calculateValidationSection(xCoordinate, yCoordinate);
-  this.validationArrays.sect[sectionID].pop();
-};
-
-var isGeneratedUnique = function(element, index, array) {
-  var filteredArray = element.filter(function(n){ return /[1-9]/.test(n); });
-  return _.uniq(filteredArray).length === filteredArray.length;
-};
-
-Sudoku.prototype.areRowsGenerated = function() {
-  return this.validationArrays.row.every(isGeneratedUnique);
-};
-
-Sudoku.prototype.areColsGenerated = function() {
-  return this.validationArrays.col.every(isGeneratedUnique);
-};
-
-Sudoku.prototype.areSectsGenerated = function() {
-  return this.validationArrays.sect.every(isGeneratedUnique);
-};
-
-Sudoku.prototype.isGameGenerated = function() {
-  return this.areRowsGenerated() && this.areColsGenerated() && this.areSectsGenerated();
 };

@@ -1,8 +1,11 @@
-table {
+#container {
   position: relative;
-  left: 35%;
+  left: 50%;
+  margin-left: -246px;
+  margin-bottom: 5%;
   border: 3px solid black;
 }
+
 table input {
   width: 47px;
   height: 47px;
@@ -21,19 +24,24 @@ table input {
 .alternate {
   background-color: white;
 }
+
 body h2 {
   position: relative;
   margin-top: -5%;
   font-size: 300%;
   text-align: center;
 }
+
 input#finish_game {
   font-size: 200%;
   background: none;
   border: none;
   position: relative;
-  left: 47%;
+  top: 85%;
+  left: 50%;
+  margin-left: -50px;
 }
+
 input#autofill {
   font-size: 130%;
   background: none;
