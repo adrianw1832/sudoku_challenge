@@ -2,6 +2,8 @@ var Sudoku = function Sudoku() {
   this.validationArrays = {row: [], col: [], sect: []};
   this.defaultGridSize = 9;
   this.buildValidationArrays();
+  this.recursionCounter = 0;
+  this.backtrackCounter = 0;
 };
 
 Sudoku.prototype.buildValidationArrays = function() {

@@ -7,9 +7,6 @@ $(document).ready(function() {
   });
 
   $('input#finish_game').one("click", function() {
-    console.log(sudoku.areRowsUnique());
-    console.log(sudoku.areColsUnique());
-    console.log(sudoku.areSectsUnique());
     if (sudoku.isGameFinished()) {
       var endTime = new Date();
       var timeTaken = (endTime - startTime) / 1000;
@@ -57,7 +54,9 @@ $(document).ready(function() {
   var runAlgorithm = function(positionCounter) {
     var rowID, colID, existingValues, avaliableValues, chosenValue;
     var validRange = _.range(1, 10);
+    sudoku.recursionCounter++;
     positionCounter++;
+    positionCounter = getNextEmptyCell(positionCounter);
     if (positionCounter > 80) {
       return true;
     } else {
@@ -72,12 +71,22 @@ $(document).ready(function() {
         if (runAlgorithm(positionCounter)) {
           return true;
         } else {
+          sudoku.backtrackCounter++;
           sudoku.remove(rowID, colID);
           $('#container tr input').eq(positionCounter).val('');
         }
       }
       return false;
     }
+  };
+
+  var getNextEmptyCell = function(positionCounter) {
+    if (positionCounter < 80) {
+      while ($('#container tr input').eq(positionCounter).val() !== '') {
+        positionCounter++;
+      }
+    }
+    return positionCounter;
   };
 
   var convertArrayElementsToIntegers = function(array) {
@@ -95,9 +104,28 @@ $(document).ready(function() {
     return _.uniq(filteredArray);
   };
 
+
   $('input#autofill').click(function() {
     runAlgorithm(-1);
+    console.log(sudoku);
+    console.log(sudoku.recursionCounter);
+    console.log(sudoku.backtrackCounter);
   });
+
+  var randomlyRemoveCells = function() {
+    var rowID, colID, randomValue;
+    var sampledArray = _.sample(_.range(81), 1);
+    for (var counter = 0; counter < sampledArray.length; counter++) {
+      randomValue = sampledArray[counter];
+      rowID = Math.floor(randomValue / 9);
+      colID = randomValue % 9;
+      sudoku.remove(rowID, colID);
+      $('#container tr input').eq(randomValue).val('');
+    }
+  };
+
+  // runAlgorithm(-1);
+  // randomlyRemoveCells();
 
   // $('input#autofill').click(function() {
   //   var calculateEveryThirdRow = function(i, j) {
