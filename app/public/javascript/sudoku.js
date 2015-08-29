@@ -3,7 +3,6 @@ var Sudoku = function Sudoku() {
   this.defaultGridSize = 9;
   this.buildValidationArrays();
   this.recursionCounter = 0;
-  this.backtrackCounter = 0;
 };
 
 Sudoku.prototype.buildValidationArrays = function() {
@@ -36,24 +35,26 @@ Sudoku.prototype.buildValidationSections = function() {
   }
 };
 
-Sudoku.prototype.insert = function(rowID, colID, value) {
+Sudoku.prototype.insertEntry = function(rowID, colID, value) {
+  value = parseInt(value);
   this.validationArrays.row[rowID][colID] = value;
   this.validationArrays.col[colID][rowID] = value;
   var sectionID = this.calculateValidationSection(rowID, colID);
   this.validationArrays.sect[sectionID].push(value);
 };
 
-Sudoku.prototype.remove = function(rowID, colID) {
+Sudoku.prototype.removeEntry = function(rowID, colID, value) {
   this.validationArrays.row[rowID][colID] = '';
   this.validationArrays.col[colID][rowID] = '';
   var sectionID = this.calculateValidationSection(rowID, colID);
-  this.validationArrays.sect[sectionID].pop();
+  var index = this.validationArrays.sect[sectionID].indexOf(value);
+  this.validationArrays.sect[sectionID].splice(index, 1);
 };
 
 Sudoku.prototype.calculateValidationSection = function(rowID, colID) {
   var sectionRowID = Math.floor(rowID / 3);
   var sectionColID = Math.floor(colID / 3);
-  var sectionID = sectionRowID + 3 * sectionColID;
+  var sectionID = 3 * sectionRowID + sectionColID;
   return sectionID;
 };
 
@@ -77,4 +78,62 @@ Sudoku.prototype.areSectsUnique = function() {
 
 Sudoku.prototype.isGameFinished = function() {
   return this.areRowsUnique() && this.areColsUnique() && this.areSectsUnique();
+};
+
+Sudoku.prototype.runSolver = function(rowID, colID) {
+  var nextEmptyCell, avaliableValues, chosenValue;
+  this.recursionCounter++;
+  nextEmptyCell = this.getNextEmptyCell(rowID, colID);
+  rowID = nextEmptyCell[0];
+  colID = nextEmptyCell[1];
+  if (rowID === 9 && colID === 0) {
+    return true;
+  } else {
+    avaliableValues = _.shuffle(this.getAvaliableValues(rowID, colID));
+    for (var i = 0; i < avaliableValues.length; i++) {
+      chosenValue = avaliableValues[i];
+      this.insertEntry(rowID, colID, chosenValue);
+      if (this.runSolver(rowID, colID)) {
+        return true;
+      } else {
+        this.removeEntry(rowID, colID, chosenValue);
+      }
+    }
+    return false;
+  }
+};
+
+Sudoku.prototype.getNextEmptyCell = function(rowID, colID) {
+  while (this.validationArrays.row[rowID][colID] !== '') {
+    colID++;
+    if (colID > 8) { rowID++; colID = 0; }
+    if (rowID === 9 && colID === 0) break;
+  }
+  return [rowID, colID];
+};
+
+Sudoku.prototype.getAvaliableValues = function(rowID, colID) {
+  var validRange = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  return _.difference(validRange, this.getExistingValues(rowID, colID));
+};
+
+Sudoku.prototype.getExistingValues = function(rowID, colID) {
+  var existingValuesOfRow = this.validationArrays.row[rowID];
+  var existingValuesOfColumn = this.validationArrays.col[colID];
+  var sectionID = this.calculateValidationSection(rowID, colID);
+  var existingValuesOfSection = this.validationArrays.sect[sectionID];
+  var preFilteredArray = _.union(existingValuesOfRow, existingValuesOfColumn, existingValuesOfSection);
+  return _.without(preFilteredArray, '');
+};
+
+Sudoku.prototype.randomlyRemoveNumberOfCells = function(numberOfCells) {
+  var rowID, colID, value, randomPosition;
+  var sampledArray = _.sample(_.range(81), numberOfCells);
+  for (var counter = 0; counter < sampledArray.length; counter++) {
+    randomPosition = sampledArray[counter];
+    rowID = Math.floor(randomPosition / 9);
+    colID = randomPosition % 9;
+    value = this.validationArrays.row[rowID][colID];
+    this.removeEntry(rowID, colID, value);
+  }
 };

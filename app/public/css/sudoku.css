@@ -1,9 +1,11 @@
-#container {
+table#sudoku {
   position: relative;
+  top:20%;
   left: 50%;
-  margin-left: -246px;
+  transform: translate(-50%, -50%);
+   -webkit-transform: translate(-50%, -50%);
+  border: 3px solid grey;
   margin-bottom: 5%;
-  border: 3px solid black;
 }
 
 table input {
@@ -21,29 +23,23 @@ table input {
   margin-left: 1px;
   background-color: lightgrey;
 }
+
 .alternate {
   background-color: white;
 }
 
-body h2 {
-  position: relative;
-  margin-top: -5%;
+h2 {
   font-size: 300%;
-  text-align: center;
 }
 
-input#finish_game {
-  font-size: 200%;
-  background: none;
-  border: none;
-  position: relative;
-  top: 85%;
-  left: 50%;
-  margin-left: -50px;
+.buttons {
+  display: inline-block;
+  font-size: 175%;
+  border: 2px solid white;
+  background-color: black;
+  border-radius: 3px;
+  padding: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-input#autofill {
-  font-size: 130%;
-  background: none;
-  border: none;
-}

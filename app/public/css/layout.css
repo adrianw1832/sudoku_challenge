@@ -1,42 +1,132 @@
-body {
+html {
   background: url("http://thewallpaperhost.com/wp-content/uploads/2014/12/Abstract-HD-Wallpapers.jpg")
   no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
   background-size: cover;
   position: absolute;
+  text-align: center;
+  color: white;
+}
+
+html, body {
+  height: 100%;
   width: 100%;
 }
 
-#header {
+a {
+  text-decoration: none;
   color: white;
 }
-#log {
-  background: none;
-  border: none;
-  font-size: 140%;
+
+header {
+  height: 80px;
+  color: white;
+  padding: 0 25px;
 }
-#log a {
+
+header > * {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+}
+
+header #logo {
+  float: left;
+  font-size: 45px;
+  color: white;
+}
+
+header p {
+  font-size: 150%;
+  margin: 0px;
+  text-align: right;
+}
+
+.button {
   display: inline-block;
+  float: right;
+  width: 100px;
+  font-size: 18px;
+  background-color: #460542;
+  border: 3px solid black;
   color: white;
+  padding: 5px 10px;
+  text-align: center;
+  border-radius: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
-#log input {
-  background: none;
-  border: none;
+
+.button.alternate {
+  float: left;
+  background-color: lightgrey;
+  margin-top: 10px;
+  margin-left: -2px;
 }
-#logo {
-  font-size: 140%;
+
+input#start_game_button {
+  position: relative;
+  display: block;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+   -webkit-transform: translate(-50%, -50%);
+  font: 175% sans-serif;
+  color: black;
+  background-color: red;
+  border: 2px solid black;
+  border-radius: 5px;
 }
-#logo a {
-  display: inline-block;
+
+h1.leaderboard {
+  text-align: center;
+}
+
+ul.records {
+  position: relative;
+  top:7.5%;
+  left: 37.5%;
+  margin: 0px;
+  list-style-type: none;
+  text-align: left;
+  font-size: 180%;
+}
+
+form {
+  text-align: left;
+  font-size: 125%;
+  padding-left: 20px;
+}
+
+form input[type="text"], form input[type="password"] {
+  top: 25%;
+  display: block;
+  border: 3px solid grey;
+  font-size: 18px;
+  color: black;
+  width: 250px;
+  margin: 10px;
+  border-radius: 5px;
+}
+
+ul {
+  padding-left: 0;
+}
+
+.flash {
+  text-align: center;
+  margin: 5px;
+  padding: 5px;
+  border-radius: 4px;
+  box-shadow: 0 0 3px rgba(0,0,0,0.4);
   color: white;
+  list-style: none;
 }
-#logo button {
-  background: none;
-  border: none;
-}
+
+  .flash.notice {
+    background-color: rgba(67,183,120,0.75);
+  }
+
+  .flash.error {
+   background-color: rgba(169,29,42,0.75);
+  }

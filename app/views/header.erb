@@ -1,28 +1,13 @@
 <header>
-  <body id="header">
-
-    <% if current_user %>
-    <h1 id="greeting">
-      Welcome,
-      <%= @current_user.username %>!
-    </h1>
-    <section id="log">
+  <a id="logo" href="/">Leaderboard</a>
+  <% if current_user %>
+    <p>Welcome, <%= @current_user.username %>!</p>
       <form action="/sessions" method="post">
         <input name="_method" type="hidden" value="delete"/>
-        <input type="submit" value="Log out"/>
+        <input class="button" type="submit" value="Log out"/>
       </form>
-      <% else %>
-      <a class="button" href="/users/new" id="register">Register</a>
-      <a class="button" href="/sessions/new" id="log-in">Log in</a>
-      <% end %>
-    </section>
-
-    <div id="logo">
-      <a href="/">
-        <button>
-          Leaderboard
-        </button>
-      </a>
-    </div>
-  </body>
+  <% else %>
+    <a class="button" href="/users/new">Register</a>
+    <a class="button" href="/sessions/new">Log in</a>
+  <% end %>
 </header>

@@ -29,18 +29,18 @@ describe('Sudoku', function() {
 
   describe('Validation', function() {
     it('can insert numbers into the validation row arrays', function() {
-      sudoku.insert(1, 0, 2);
+      sudoku.insertEntry(1, 0, 2);
       expect(sudoku.validationArrays.row[1][0]).toEqual(2);
     });
 
     it('can insert numbers into the validation col arrays', function() {
-      sudoku.insert(1, 0, 2);
+      sudoku.insertEntry(1, 0, 2);
       expect(sudoku.validationArrays.col[0][1]).toEqual(2);
     });
 
     it('can insert numbers into the validation sect arrays', function() {
-      sudoku.insert(1, 0, 2);
-      sudoku.insert(1, 1, 3);
+      sudoku.insertEntry(1, 0, 2);
+      sudoku.insertEntry(1, 1, 3);
       expect(sudoku.validationArrays.sect[0]).toEqual([2, 3]);
     });
 
@@ -60,7 +60,7 @@ describe('Sudoku', function() {
       beforeEach(function(){
         for (i = 0; i < sudoku.defaultGridSize; i++) {
           for (j = 0; j < sudoku.defaultGridSize; j++) {
-            sudoku.insert(i, j, 1);
+            sudoku.insertEntry(i, j, 1);
           }
         }
       });
@@ -84,23 +84,7 @@ describe('Sudoku', function() {
 
     describe('checking all rows and columns, scenario 2', function() {
       beforeEach(function(){
-        var calculateEveryThirdRow = function(i, j) {
-          return ((Math.floor(i / 3) + j + 1) % sudoku.defaultGridSize) === 0 ? 9 : ((Math.floor(i / 3) + j + 1) % sudoku.defaultGridSize);
-        };
-
-        var calculateOtherRows = function(i, j) {
-          return ((Math.floor(i / 3) + j + 1 + 3 * (i % 3)) % sudoku.defaultGridSize) === 0 ? 9 : ((Math.floor(i / 3) + j + 1 + 3 * (i % 3)) % sudoku.defaultGridSize);
-        };
-
-        for (i = 0; i < sudoku.defaultGridSize; i++) {
-          for (j = 0; j < sudoku.defaultGridSize; j++) {
-            if (i % 3 === 0) {
-              sudoku.insert(i, j, calculateEveryThirdRow(i, j));
-            } else {
-              sudoku.insert(i, j, calculateOtherRows(i, j));
-            }
-          }
-        }
+        sudoku.runSolver(0, 0);
       });
 
       it('returns true if all the rows are unique', function() {

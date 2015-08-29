@@ -48,13 +48,14 @@ feature 'on the homepage' do
     create :record
     visit '/'
     expect(page).to have_content 'Leaderboard'
-    within 'ol#time' do
+    within 'ul.records' do
       expect(page).to have_content 'foobar'
       expect(page).to have_content '1 minutes'
     end
   end
+end
 
-context 'autofill button only shows for admin users 1-3' do
+context 'autofill button only shows for the admin' do
   scenario 'admin with user id 1 should see the button' do
     user = create(:user)
     sign_in_as(user)
@@ -62,32 +63,11 @@ context 'autofill button only shows for admin users 1-3' do
     expect(page).to have_button('Auto Fill')
   end
 
-  scenario 'admin with user id 2 should see the button' do
-    user1 = create(:user)
-    user2 = create(:user, email: 'potato@potato.com', username: 'potato')
+  scenario 'user with user id 2 should not see the button' do
+    create(:user)
+    user2 = create(:user2)
     sign_in_as(user2)
-    visit('/game')
-    expect(page).to have_button('Auto Fill')
-  end
-
-  scenario 'autofill button only goes to admin user id 1-3' do
-    user1 = create(:user)
-    user2 = create(:user, email: 'potato@potato.com', username: 'potato')
-    user3 = create(:user, email: 'google@google.com', username: 'google')
-    sign_in_as(user3)
-    visit('/game')
-    expect(page).to have_button('Auto Fill')
-  end
-
-  scenario 'autofill button only goes to admin user id 1-3' do
-    user1 = create(:user)
-    user2 = create(:user, email: 'potato@potato.com', username: 'potato')
-    user3 = create(:user, email: 'google@google.com', username: 'google')
-    user4 = create(:user, email: 'leon@makers.com', username: 'makers')
-    sign_in_as(user4)
     visit('/game')
     expect(page).not_to have_button('Auto Fill')
   end
-end
-
 end
