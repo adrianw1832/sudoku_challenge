@@ -2,6 +2,44 @@ $(document).ready(function() {
   var sudoku = new Sudoku();
   var startTime, endTime, timeTaken;
 
+  var buildGUI = function() {
+    var row, cell, input, sectionRowID, sectionColID;
+    for (var rowID = 0; rowID < sudoku.defaultGridSize; rowID++) {
+      row = $('<tr>');
+      $('#sudoku').append(row);
+      for (var colID = 0; colID < sudoku.defaultGridSize; colID++) {
+        cell = $('<td>');
+        input = ($('<input>').attr('maxlength', 1)
+          .on('keyup', $.proxy(sudoku.findDetails, this))
+          .data('row', rowID)
+          .data('col', colID)
+        );
+        sectionRowID = Math.floor(rowID / 3);
+        sectionColID = Math.floor(colID / 3);
+        if ((sectionRowID + sectionColID) % 2 === 0) input.addClass('alternate');
+        cell.append(input);
+        row.append(cell);
+      }
+    }
+  };
+
+  var findDetails = function(cell) {
+    var value = $(cell.currentTarget).val();
+    var rowID = $(cell.currentTarget).data().row;
+    var colID = $(cell.currentTarget).data().col;
+    sudoku.insertEntry(rowID, colID, value);
+  };
+
+  var printSudokuToScreen = function() {
+    var rowID, colID, value;
+    for (counter = 0; counter < 81; counter++) {
+      rowID = Math.floor(counter / 9);
+      colID = counter % 9;
+      value = sudoku.validationArrays.row[rowID][colID];
+      $('#sudoku tr input').eq(counter).val(value);
+    }
+  };
+
   $('#start_game_button').click(function() {
     window.location.assign('http://127.0.0.1:9292/game');
   });
@@ -42,6 +80,6 @@ $(document).ready(function() {
     $('.buttons.finish_game').show();
   });
 
-  sudoku.buildGUI();
+  buildGUI();
   $('.buttons.finish_game').hide();
 });

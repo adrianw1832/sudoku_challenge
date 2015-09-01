@@ -13,7 +13,7 @@ describe('feature testing', function() {
       expect($('table tr td').length).toEqual(81);
       spyOn(Sudoku.prototype, 'runSolver');
       spyOn(Sudoku.prototype, 'randomlyRemoveNumberOfCells');
-      spyOn(Sudoku.prototype, 'printSudokuToScreen').and.callThrough();
+      spyOn($.fn, 'printSudokuToScreen').and.callThrough();
       expect('.buttons.generate_sudoku').toBeVisible();
       expect('.buttons.auto_solve').toBeVisible();
       $('.buttons.generate_sudoku').click();
@@ -23,7 +23,7 @@ describe('feature testing', function() {
       var sudoku = new Sudoku();
       expect(sudoku.runSolver).toHaveBeenCalled();
       expect(sudoku.randomlyRemoveNumberOfCells).toHaveBeenCalled();
-      expect(sudoku.printSudokuToScreen).toHaveBeenCalled();
+      expect($.fn.printSudokuToScreen).toHaveBeenCalled();
     });
 
     it('"Have fun" title', function() {
