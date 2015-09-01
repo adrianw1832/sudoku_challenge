@@ -42,8 +42,6 @@ $(document).ready(function() {
     $('.buttons.finish_game').show();
   });
 
-  buildGUI();
+  sudoku.buildGUI();
   $('.buttons.finish_game').hide();
 });
-
-
