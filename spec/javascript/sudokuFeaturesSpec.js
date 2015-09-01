@@ -2,29 +2,32 @@ describe('feature testing', function() {
 
   beforeEach(function() {
     jasmine.getFixtures().fixturesPath = './app/views';
+    loadFixtures('game.erb');
+      $.holdReady(false);
   });
 
+  // I have to put all tests under one due to holdReady?
   describe('#Game page has', function() {
     it('9 rows and 81 cells', function() {
-      loadFixtures('game.erb');
-      $.holdReady(false);
-      var rowCount = $('table tr').length;
-      var cellCount = $('table tr td').length;
-      expect(rowCount).toEqual(9);
-      expect(cellCount).toEqual(81);
+      expect($('table tr').length).toEqual(9);
+      expect($('table tr td').length).toEqual(81);
+      spyOn(Sudoku.prototype, 'runSolver');
+      spyOn(Sudoku.prototype, 'randomlyRemoveNumberOfCells');
+      spyOn(Sudoku.prototype, 'printSudokuToScreen').and.callThrough();
+      expect('.buttons.generate_sudoku').toBeVisible();
+      expect('.buttons.auto_solve').toBeVisible();
+      $('.buttons.generate_sudoku').click();
+      expect('.buttons.generate_sudoku').toBeHidden();
+      expect('.buttons.auto_solve').toBeHidden();
+      expect('.buttons.finish_game').toBeVisible();
+      var sudoku = new Sudoku();
+      expect(sudoku.runSolver).toHaveBeenCalled();
+      expect(sudoku.randomlyRemoveNumberOfCells).toHaveBeenCalled();
+      expect(sudoku.printSudokuToScreen).toHaveBeenCalled();
     });
 
     it('"Have fun" title', function() {
-      loadFixtures('game.erb');
       expect('h2').toContainText('Have fun');
-    });
-
-    it('generate puzzle button', function() {
-      loadFixtures('game.erb');
-      spyOn(Sudoku.prototype, 'runSolver');
-      var sudoku = new Sudoku();
-      $('.buttons.generate_sudoku').click();
-      expect(sudoku.runSolver).toHaveBeenCalled();
     });
   });
 

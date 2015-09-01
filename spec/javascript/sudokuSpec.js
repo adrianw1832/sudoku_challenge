@@ -55,53 +55,81 @@ describe('Sudoku', function() {
     it('returns false if the array contains non digits', function() {
       expect(isArrayUnique([1, 2, 3, 4, 5, 6, 7, 8, 'a'])).toBe(false);
     });
+  });
 
-    describe('checking all rows and columns, scenario 1', function() {
-      beforeEach(function(){
-        for (i = 0; i < sudoku.defaultGridSize; i++) {
-          for (j = 0; j < sudoku.defaultGridSize; j++) {
-            sudoku.insertEntry(i, j, 1);
-          }
+  describe('checking all rows and columns, scenario 1', function() {
+    beforeEach(function(){
+      for (i = 0; i < sudoku.defaultGridSize; i++) {
+        for (j = 0; j < sudoku.defaultGridSize; j++) {
+          sudoku.insertEntry(i, j, 1);
         }
-      });
-
-      it('returns false if all the rows are not unique', function() {
-        expect(sudoku.areRowsUnique()).toBe(false);
-      });
-
-      it('returns false if all the columns are not unique', function() {
-        expect(sudoku.areColsUnique()).toBe(false);
-      });
-
-      it('returns false if all the sectionss are not unique', function() {
-        expect(sudoku.areSectsUnique()).toBe(false);
-      });
-
-      it('returns false if not all rows, columns and sections are unique', function() {
-        expect(sudoku.isGameFinished()).toBe(false);
-      });
+      }
     });
 
-    describe('checking all rows and columns, scenario 2', function() {
-      beforeEach(function(){
-        sudoku.runSolver(0, 0);
-      });
+    it('returns false if all the rows are not unique', function() {
+      expect(sudoku.areRowsUnique()).toBe(false);
+    });
 
-      it('returns true if all the rows are unique', function() {
-        expect(sudoku.areRowsUnique()).toBe(true);
-      });
+    it('returns false if all the columns are not unique', function() {
+      expect(sudoku.areColsUnique()).toBe(false);
+    });
 
-      it('returns true if all the columns are unique', function() {
-        expect(sudoku.areColsUnique()).toBe(true);
-      });
+    it('returns false if all the sectionss are not unique', function() {
+      expect(sudoku.areSectsUnique()).toBe(false);
+    });
 
-      it('returns true if all the sections are unique', function() {
-        expect(sudoku.areColsUnique()).toBe(true);
-      });
+    it('returns false if not all rows, columns and sections are unique', function() {
+      expect(sudoku.isGameFinished()).toBe(false);
+    });
+  });
 
-      it('returns true if all rows, columns and sections are unique', function() {
-        expect(sudoku.isGameFinished()).toBe(true);
-      });
+  describe('checking all rows and columns, scenario 2', function() {
+    beforeEach(function(){
+      sudoku.runSolver(0, 0);
+    });
+
+    it('returns true if all the rows are unique', function() {
+      expect(sudoku.areRowsUnique()).toBe(true);
+    });
+
+    it('returns true if all the columns are unique', function() {
+      expect(sudoku.areColsUnique()).toBe(true);
+    });
+
+    it('returns true if all the sections are unique', function() {
+      expect(sudoku.areSectsUnique()).toBe(true);
+    });
+
+    it('returns true if all rows, columns and sections are unique', function() {
+      expect(sudoku.isGameFinished()).toBe(true);
+    });
+  });
+
+  describe('solver algorithm', function() {
+    it('can deal with cells that have an existing entry', function() {
+      sudoku.insertEntry(0, 0, 1);
+      sudoku.insertEntry(0, 1, 2);
+      sudoku.runSolver(0, 0);
+      expect(sudoku.validationArrays.row[0][0]).toEqual(1);
+      expect(sudoku.validationArrays.row[0][1]).toEqual(2);
+      expect(sudoku.isGameFinished()).toBe(true);
+    });
+  });
+
+  describe('remove random number of cells', function() {
+    it('removes the entry in our validationArrays', function() {
+      sudoku.insertEntry(0, 0, 1);
+      sudoku.removeEntry(0, 0, 1);
+      expect(sudoku.validationArrays.row[0][0]).toEqual('');
+      expect(sudoku.validationArrays.col[0][0]).toEqual('');
+      expect(sudoku.validationArrays.sect[0]).toEqual([]);
+    });
+
+    it('calls on removeEntry the correct number of times', function() {
+      sudoku.runSolver(0, 0);
+      spyOn(sudoku, 'removeEntry');
+      sudoku.randomlyRemoveNumberOfCells(50);
+      expect(sudoku.removeEntry.calls.count()).toEqual(50);
     });
   });
 });

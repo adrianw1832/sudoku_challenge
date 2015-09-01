@@ -137,3 +137,41 @@ Sudoku.prototype.randomlyRemoveNumberOfCells = function(numberOfCells) {
     this.removeEntry(rowID, colID, value);
   }
 };
+
+Sudoku.prototype.buildGUI = function() {
+  var row, cell, input, sectionRowID, sectionColID;
+  for (var rowID = 0; rowID < this.defaultGridSize; rowID++) {
+    row = $('<tr>');
+    $('#sudoku').append(row);
+    for (var colID = 0; colID < this.defaultGridSize; colID++) {
+      cell = $('<td>');
+      input = ($('<input>').attr('maxlength', 1)
+        .on('keyup', $.proxy(this.findDetails, this))
+        .data('row', rowID)
+        .data('col', colID)
+      );
+      sectionRowID = Math.floor(rowID / 3);
+      sectionColID = Math.floor(colID / 3);
+      if ((sectionRowID + sectionColID) % 2 === 0) input.addClass('alternate');
+      cell.append(input);
+      row.append(cell);
+    }
+  }
+};
+
+Sudoku.prototype.findDetails = function(cell) {
+  var value = $(cell.currentTarget).val();
+  var rowID = $(cell.currentTarget).data().row;
+  var colID = $(cell.currentTarget).data().col;
+  this.insertEntry(rowID, colID, value);
+};
+
+Sudoku.prototype.printSudokuToScreen = function() {
+  var rowID, colID, value;
+  for (counter = 0; counter < 81; counter++) {
+    rowID = Math.floor(counter / 9);
+    colID = counter % 9;
+    value = this.validationArrays.row[rowID][colID];
+    $('#sudoku tr input').eq(counter).val(value);
+  }
+};
