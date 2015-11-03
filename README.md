@@ -37,7 +37,7 @@ RSpec, Capybara, Jasmine, Jasmine jQuery
 
 ##How to install
 
-Clone the repo and run rackup in the terminal. You would also need to set up the
+Clone the repo, run bower install, and then run rackup in the terminal. You would also need to set up the
 development (and test databases). Visit localhost:9292 and sign up to access the
 timed mode or solver mode.
 
