@@ -10,7 +10,7 @@ $(document).ready(function() {
       for (var colID = 0; colID < sudoku.defaultGridSize; colID++) {
         cell = $('<td>');
         input = ($('<input>').attr('maxlength', 1)
-          .on('keyup', $.proxy(sudoku.findDetails, this))
+          .on('keyup', $.proxy(findDetails, this))
           .data('row', rowID)
           .data('col', colID)
         );
