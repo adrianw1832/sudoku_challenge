@@ -1,5 +1,6 @@
 html {
-  background: url("http://thewallpaperhost.com/wp-content/uploads/2014/12/Abstract-HD-Wallpapers.jpg")
+  background-color: black;
+  /* background: url("http://thewallpaperhost.com/wp-content/uploads/2014/12/Abstract-HD-Wallpapers.jpg") */
   no-repeat center center fixed;
   background-size: cover;
   position: absolute;
